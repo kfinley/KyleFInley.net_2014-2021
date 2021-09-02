@@ -1,0 +1,25 @@
+﻿
+@model ViewData<KyleFinley.Models.Article>
+
+@{
+    Layout = "~/views/shared/_ArticleLayout.cshtml";
+}
+@if (Model.Page.Enabled) {
+    <div class="article-meta-data">
+        by <span class="article-meta-author" itemprop="author"><a href="https://twitter.com/@Model.TwitterHandle" target="_blank" title="@Model.TwitterHandle on Twitter">@Model.Page.Entity.Author</a></span>Published: <time itemprop="pubdate" datetime="@Model.Page.PublishedDate.Value.ToUniversalTime()">@Model.Page.PublishedDate.Value.ToLongDateString()</time>
+    </div>
+} else {
+    <div class="article-meta-data">
+        !!!NOT PUBLISHED!!!
+    </div>
+}
+<div itemprop="articleBody">
+    @Html.RenderContent(Model.Page.Content)
+</div>
+
+@section Scripts {
+
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript">stLight.options({ publisher: "26e77fc3-12f7-4867-8759-1a3bb20762d4", doNotHash: true, doNotCopy: true, hashAddressBar: false });</script>
+}

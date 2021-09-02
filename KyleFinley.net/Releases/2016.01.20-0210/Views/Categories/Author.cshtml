@@ -1,0 +1,99 @@
+﻿
+@using _928.Web.Mvc
+@using KyleFinley.Models
+@using KyleFinley.Web.Models
+
+@model AuthorViewData<_928.Entities.Models.Page<Category>, Category>
+
+@{
+    Model.Title = (Model.AuthorMode == AuthorMode.Create) ? "Create Category Page" : "Edit: " + Model.Page.Entity.Name;
+}
+
+<div class="row">
+    <div class="col-md-12">
+        <h1>@Model.Title</h1>
+        <div>
+            @Html.ActionLink("Back to List", "Index")
+        </div>
+        @if (Model.Saved) {
+            <h2 class="alert-success">Category Saved</h2>
+        }
+    </div>
+</div>
+
+@if (Model.AuthorMode == AuthorMode.Review) {
+    @Html.Partial("ShortUrlClicks", Model.Page)
+}
+
+<div class="row section">
+    <div class="col-md-12 section-header">
+        Category Details &amp; Settings
+    </div>
+</div>
+@using (Html.BeginForm()) {
+
+    @Html.AntiForgeryToken()
+
+    <div class="form-horizontal">
+
+        @Html.ValidationSummary(true, "", new { @class = "text-danger" })
+        @Html.HiddenFor(model => model.Page.Id)
+        @Html.HiddenFor(model => model.Page.Entity.Id)
+        <div class="form-group row">
+            <div class="col-md-7">
+                @Html.LabelFor(model => model.Page.Title, htmlAttributes: new { @class = "col-md-8" })
+                @Html.EditorFor(model => model.Page.Title, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Page.Title, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-5">
+                @using (Html.BeginLabelFor(model => model.Page.Enabled, new { @class = "checkbox" })) {
+                    @Html.CheckBoxFor(model => model.Page.Enabled)
+                }
+                @Html.ValidationMessageFor(model => model.Page.Enabled, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                @Html.LabelFor(model => model.Page.Description, htmlAttributes: new { @class = "col-md-12" })
+                @Html.EditorFor(model => model.Page.Description, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Page.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class=" col-md-6">
+                @Html.LabelFor(model => model.Url, htmlAttributes: new { @class = "col-md-6" })
+                @if (Model.AuthorMode == AuthorMode.Create) {
+                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control" } })
+                } else {
+                    @Html.EditorFor(model => model.Url, new { htmlAttributes = new { @class = "form-control", disabled = "disabled" } })
+                }
+                @Html.ValidationMessageFor(model => model.Url, "", new { @class = "text-danger" })
+            </div>
+            <div class="col-md-6">
+                @Html.LabelFor(model => model.Page.PageImage, htmlAttributes: new { @class = "col-md-6" })
+                @Html.EditorFor(model => model.Page.PageImage, new { htmlAttributes = new { @class = "form-control" } })
+                @Html.ValidationMessageFor(model => model.Page.Description, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            @Html.LabelFor(model => model.Page.Content, "Page Content", new { @class = "col-md-12" })
+            <div class="col-md-12">
+                @Html.TextAreaFor(model => model.Page.Content, new { @class = "form-control", style = "width: 100%; height: 500px;" })
+                @Html.ValidationMessageFor(model => model.Page.Content, "", new { @class = "text-danger" })
+            </div>
+        </div>
+        <div class="form-group row">
+            <div class="col-md-12">
+                <input type="submit" value="Save Category" class="btn btn-default" />
+            </div>
+        </div>
+    </div>
+}
+
+<div>
+    @Html.ActionLink("Back to List", "Index")
+</div>
+
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

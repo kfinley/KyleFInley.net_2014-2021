@@ -1,0 +1,125 @@
+﻿@model _928.Web.Mvc.ViewData<KyleFinley.Models.Article>
+@{
+    Layout = "_Layout.cshtml";
+}
+
+@{ 
+    var foo = Enum.GetValues(typeof(_928.Web.Mvc.AuthorMode)).Cast<_928.Web.Mvc.AuthorMode>();
+}
+@section Header {
+    <article itemscope itemtype="http://schema.org/Article">
+        <div class="container" @*style="background-image: url('/content/images/@Model.HeaderImage')"*@>
+            <header class="jumbotron">
+                <h1 itemprop="name headline">@Model.Page.Entity.Headline</h1>
+                <p class="lead" itemprop="description alternativeHeadline">@Model.Page.Entity.AlternativeHeadline</p>
+                <div class="pull-right share-widgets">
+                    <span class='st_twitter_large' displaytext='Tweet' st_url="http://@Model.Page.TwitterShareUrl" st_via="@Model.TwitterHandle"></span>
+                    <span class='st_googleplus_large' displaytext='Google+' st_url="http://@Model.Page.GoogleShareUrl"></span>
+                    <span class='st_linkedin_large' displaytext='LinkedIn' st_url="http://@Model.Page.LinkedInShareUrl"></span>
+                    <span class='st_facebook_large' displaytext='Facebook' st_url="http://@Model.Page.FacebookShareUrl"></span>
+                    @*<span class='st_pinterest_large' displaytext='Pinterest' st_url="http://@Article.PinterestShareUrl"></span>*@
+                    <span class='st_email_large' displaytext='Email' st_url="http://@Model.Page.EmailShareUrl"></span>
+                </div>
+                <div class="clearfix"></div>
+            </header>
+        </div>
+}
+<div class="row">
+    <div class="col-md-9">
+        @RenderBody()
+    </div>
+    <aside id="rightColumn" class="col-md-3">
+        <a class="twitter-timeline" href="https://twitter.com/kfinley" data-widget-id="324869703942148097">Tweets by @Html.Raw("@" + Model.TwitterHandle)</a>
+        <script>!function (d, s, id) { var js, fjs = d.getElementsByTagName(s)[0], p = /^http:/.test(d.location) ? 'http' : 'https'; if (!d.getElementById(id)) { js = d.createElement(s); js.id = id; js.src = p + "://platform.twitter.com/widgets.js"; fjs.parentNode.insertBefore(js, fjs); } }(document, "script", "twitter-wjs");</script>
+    </aside>
+</div>
+@section PostFooter {
+</article>
+}
+@section Scripts {
+    @RenderSection("Scripts", false)
+    <script type="text/javascript">
+        var originalTwitterFeedHeight;
+
+        $(window).resize(function () {
+            handleRightColumn($(this).width());
+        });
+        $(window).on('scroll', function () {
+            handleRightColumn($(this).width());
+        });
+        $(document).on('touchstart', function () {
+            handleRightColumn($(window).width());
+        });
+        $(document).on('touchmove', function () {
+            handleRightColumn($(window).width());
+        });
+
+        function handleRightColumn(windowWidth) {
+            if (originalTwitterFeedHeight == undefined) {
+                originalTwitterFeedHeight = $('#twitter-widget-0').height();
+            }
+
+            if (windowWidth >= 976) {
+                var navBarHeight = $(".navbar").height();
+
+                if (Math.max($(document).height() - (window.pageYOffset + $(window).height()), 0) <= $(document).height() - ($('article').offset().top + $('article').height())) {
+                    var height = $(window).height() - ((/* distanceFromBottom */ $(document).height() - ($('article').offset().top + $('article').height())) + ( /* distanceFromTop */ $('#rightColumn').offset().top - window.pageYOffset));
+                    if (height <= originalTwitterFeedHeight) {
+                        $('#twitter-widget-0').height(height);
+                        $("#twitter-widget-0").contents().find(".stream").height(height - 40 - ($("#twitter-widget-0").contents().find('.timeline-footer').height() + $("#twitter-widget-0").contents().find('.timeline-header').height()));
+                    }
+                } else {
+                    if ($('#twitter-widget-0').height() >= $(window).height() - ((/* distanceFromBottom */ $(document).height() - ($('article').offset().top + $('article').height())) + ( /* distanceFromTop */ $('#rightColumn').offset().top - window.pageYOffset)) &&
+                        window.pageYOffset >= $($('article')).offset().top - $(".navbar").height() - 10) {
+                        var height = $(window).height() - $(".navbar").height() - 10;
+                        if (height <= originalTwitterFeedHeight) {
+                            $('#twitter-widget-0').height(height - 10);
+                            $("#twitter-widget-0").contents().find(".stream").height(height - 40 - ($("#twitter-widget-0").contents().find('.timeline-footer').height() + $("#twitter-widget-0").contents().find('.timeline-header').height()));
+                        }
+                    } else {
+                        if ($('#twitter-widget-0').height() != originalTwitterFeedHeight) {
+                            $('#twitter-widget-0').height(originalTwitterFeedHeight);
+                            $("#twitter-widget-0").contents().find(".stream").height(originalTwitterFeedHeight - ($("#twitter-widget-0").contents().find('.timeline-footer').height() + $("#twitter-widget-0").contents().find('.timeline-header').height()));
+                        }
+                    }
+                }
+
+                if (window.pageYOffset >= $($('#rightColumn')).offset().top - navBarHeight - 10) {
+                    var left = $('article').outerWidth();
+                    var width = $('#rightColumn').outerWidth();
+                    $('#rightColumn').addClass('fixed').css('top', navBarHeight + 10).css('margin-left', left).css('width', width);
+                }
+
+                if (window.pageYOffset < $($('article')).offset().top - navBarHeight - 10) {
+                    $('#rightColumn').removeClass('fixed').css('top', '').css('margin-left', '').css('width', '');
+                }
+            } else {
+                $('#rightColumn').removeClass('fixed').css('top', '').css('margin-left', '').css('width', '');
+                $("#twitter-widget-0").width($("article").width());
+            }
+        };
+    </script>
+    @if (Model.Page.Entity.ContainsCode) {
+        <script type="text/javascript" src="~/content/scripts/shCore.js"></script>
+        <script type="text/javascript" src="~/content/scripts/shBrushCSharp.js"></script>
+        <script type="text/javascript" src="~/content/scripts/shBrushVb.js"></script>
+        <script type="text/javascript">
+            $(document).ready(function () {
+                SyntaxHighlighter.all()
+            });
+        </script>
+    }
+}
+@section HeaderContent {
+    <meta property="article:published_time" content="@Model.PublishedDate" />
+    <meta property="article:modified_time" content="@Model.ModifiedDate" />
+    <meta property="article:author" content="@Model.Page.Entity.Author" />
+    <script type="text/javascript">var switchTo5x = true;</script>
+    <script type="text/javascript" src="http://w.sharethis.com/button/buttons.js"></script>
+    <script type="text/javascript" src="http://s.sharethis.com/loader.js"></script>
+    @if (Model.Page.Entity.ContainsCode) {
+        <link href="~/content/styles/shCore.css" rel="stylesheet" type="text/css" />
+        <link href="~/content/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+    }
+    @RenderSection("HeaderContent", false)
+}

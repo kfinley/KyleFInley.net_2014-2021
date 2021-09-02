@@ -1,0 +1,15 @@
+﻿
+@model HomeViewData
+
+
+@section Header {
+    <div class="home-header" style="background-image: url('/content/images/@Model.HeaderImage')">
+    </div>
+}
+
+@Html.RenderContent(Model.Page.Content)
+
+@foreach (var article in Model.ArticleSummaries)
+{
+    @Html.Partial("ArticleSummary", article)
+}

@@ -1,0 +1,65 @@
+﻿@model _928.Entities.Models.Page
+
+@using _928.Web.Mvc
+@using KyleFinley.Models
+@using KyleFinley.Web.Models
+
+<div class="row section">
+    <div class="col-md-12 section-header">
+        Share URL Clicks
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class="short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.TwitterShareUrlClicks != null), NamedRoutes.Manage,
+                    new { controller = "ShortUrlAnalytics", id = Model.TwitterShareShortUrl == null ? string.Empty : Model.TwitterShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>Twitter Clicks</p>
+                <p class="short-url-clicks-number">@(Model.TwitterShareUrlClicks != null ? Model.TwitterShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class=" short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.GoogleShareUrlClicks != null), NamedRoutes.Manage,
+                    new { controller = "ShortUrlAnalytics", id = Model.GoogleShareShortUrl == null ? string.Empty : Model.GoogleShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>Google Clicks</p>
+                <p class="short-url-clicks-number">@(Model.GoogleShareUrlClicks != null ? Model.GoogleShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class="short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.LinkedInShareUrlClicks != null), NamedRoutes.Manage,
+                    new { controller = "ShortUrlAnalytics", id = Model.LinkedInShareShortUrl == null ? string.Empty : Model.LinkedInShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>LinkedIn Clicks</p>
+                <p class="short-url-clicks-number">@(Model.LinkedInShareUrlClicks != null ? Model.LinkedInShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class="short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.FacebookShareUrlClicks != null), NamedRoutes.Manage,
+                    new { controller = "ShortUrlAnalytics", id = Model.FacebookShareShortUrl == null ? string.Empty : Model.FacebookShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>Facebook Clicks</p>
+                <p class="short-url-clicks-number">@(Model.FacebookShareUrlClicks != null ? Model.FacebookShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class="short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.PinterestShareUrlClicks != null), NamedRoutes.Manage,
+                new { controller = "ShortUrlAnalytics", id = Model.PinterestShareShortUrl == null ? string.Empty : Model.PinterestShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>Pinterest Clicks</p>
+                <p class="short-url-clicks-number">@(Model.PinterestShareUrlClicks != null ? Model.PinterestShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+    <div class="col-lg-2 col-md-4 col-sm-4 col-xs-6">
+        <div class="short-url-clicks">
+            @using (Html.BeginRouteLinkIf((Model.EmailShareUrlClicks != null), NamedRoutes.Manage,
+                new { controller = "ShortUrlAnalytics", id = Model.EmailShareUrlClicks == null ? string.Empty : Model.EmailShareShortUrl.Key }, new { @class = "no-underline" }, lowerCaseUrl: false)) {
+                <p>Email Clicks</p>
+                <p class="short-url-clicks-number">@(Model.EmailShareUrlClicks != null ? Model.EmailShareUrlClicks.ShortUrlClicks.ToString() : "N/A")</p>
+            }
+        </div>
+    </div>
+</div>

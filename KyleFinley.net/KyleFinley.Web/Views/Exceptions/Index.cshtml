@@ -1,0 +1,37 @@
+﻿@model KyleFinley.Web.Models.ListViewData<_928.Entities.CoreException>
+
+@{
+    Model.Title = "Site Errors";
+}
+
+<h2>Site Errors</h2>
+
+
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().DateCreated)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().ExceptionMessage)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().ExceptionType)
+        </th>
+    </tr>
+
+    @foreach (var page in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => page.DateCreated)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => page.ExceptionMessage)
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => page.ExceptionType)
+            </td>
+        </tr>
+    }
+
+</table>

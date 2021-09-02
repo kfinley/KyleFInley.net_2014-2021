@@ -1,0 +1,78 @@
+﻿@using _928.Core
+@model _928.Web.Mvc.BaseViewData
+
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>@Model.Title - @Model.Site</title>
+    @if (@Model.NoIndex) {
+    <meta name="robots" content="noindex" />
+    } else { 
+    <meta name="description" content="@Model.Description" />
+    <link rel="canonical" href="@Html.Raw(HttpContext.Current.Request.Url.Scheme + "://" + Request.Url.Authority + Model.Canonical)" />
+    <meta itemprop="name" content="@Model.Site - @Model.Title" />
+    <meta itemprop="description" content="@Model.Description" />
+    <meta name="twitter:card" content="summary_large_image" />
+    <meta name="twitter:site" content="@Html.Raw("@" + @Model.TwitterHandle)" />
+    <meta name="twitter:creator" content="@Html.Raw("@" + @Model.TwitterHandle)" />
+    <meta name="twitter:title" content="@Model.Title" />
+    <meta name="twitter:description" content="@Model.Description" />
+    if (@Model.PageImage.HasValue()) {
+    <meta name="twitter:image:src" content="http://@Model.Site/content/images/@Model.PageImage" />
+    }
+    <meta property="twitter:account_id" content="1530436921" />
+    <meta property="og:title" content="@Model.Title" />
+    <meta property="og:type" content="Website" />
+    <meta property="og:url" content="http://@(Model.Site + Model.Canonical)" />
+    if (@Model.PageImage.HasValue()) {
+    <meta property="og:image" content="http://@Model.Site/content/images/@Model.PageImage" />
+     }
+    <meta property="og:description" content="@Model.Description" />
+    <meta property="og:site_name" content="@Model.Site" />
+    }
+    @RenderSection("HeaderContent", required: false)
+    @Styles.Render("~/content/css")
+    @Scripts.Render("~/bundles/modernizr")
+    @Scripts.Render("~/bundles/sitejs")
+          
+</head>
+<body>
+@Html.Partial("GoogleTagManager")
+    <div class="navbar navbar-inverse navbar-fixed-top">
+        <div class="container">
+            <div class="navbar-header">
+                <button type="button" class="navbar-toggle" data-toggle="collapse" data-target=".navbar-collapse">
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                    <span class="icon-bar"></span>
+                </button>
+                <a href="/" title="KyeFinley.net" class="navbar-brand">Kyle Finley</a>
+            </div>
+            <div class="navbar-collapse collapse">
+                @*<ul class="nav navbar-nav">
+                    <li>@Html.ActionLink("About", "About", "Home")</li>
+                    <li>@Html.ActionLink("Contact", "Contact", "Home")</li>
+                </ul>*@
+                @Html.Partial("_LoginPartial")
+            </div>
+        </div>
+    </div>
+     @RenderSection("Header", required: false)
+    <div class="container body-content">
+        @RenderBody()
+        <hr />
+        <footer>
+            <p>&copy; @DateTime.Now.Year - @Model.Site</p>
+        </footer>
+    </div>
+    @RenderSection("PostFooter", required: false)
+    @Scripts.Render("~/bundles/jquery")
+    @Scripts.Render("~/bundles/bootstrap")
+    @RenderSection("Scripts", required: false)
+    @if (Model.AnalyticsTracking) { 
+    @Html.Partial("GoogleAnalytics")
+    }
+</body>
+</html>

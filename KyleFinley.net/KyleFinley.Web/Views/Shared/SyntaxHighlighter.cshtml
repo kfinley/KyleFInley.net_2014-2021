@@ -1,0 +1,18 @@
+﻿@section HeaderContent {
+    @RenderSection("HeaderContent", false)
+    <link href="~/content/styles/shCore.css" rel="stylesheet" type="text/css" />
+    <link href="~/content/styles/shThemeDefault.css" rel="stylesheet" type="text/css" />
+}
+
+@section Scripts {
+    @RenderSection("Scripts", false)
+    <script type="text/javascript" src="~/content/scripts/shCore.js"></script>
+    <script type="text/javascript" src="~/content/scripts/shBrushCSharp.js"></script>
+    <script type="text/javascript" src="~/content/scripts/shBrushVb.js"></script>
+
+    <script type="text/javascript">
+        $(document).ready(function () {
+            SyntaxHighlighter.all()
+        });
+    </script>
+}

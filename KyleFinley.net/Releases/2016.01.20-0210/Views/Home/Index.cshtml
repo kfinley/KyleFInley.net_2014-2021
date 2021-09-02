@@ -1,0 +1,50 @@
+﻿@model KyleFinley.Web.Models.ListViewData<_928.Entities.Models.Page<KyleFinley.Models.Home>>
+
+@{
+    Model.Title = "Manage Home Page";
+}
+
+<h2>Manage Home Page</h2>
+
+<p>
+    @Html.RouteLink("Management Dashboard", NamedRoutes.TopLevel, new { url = "manage" })<br />
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().LastModified)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Enabled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var page in Model.Items) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => page.Title)
+        </td>
+        <td>
+            @(page.PublishedDate.HasValue ? page.LastModified.ToShortDateString() : "Not Published")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => page.Description)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => page.Enabled)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id = page.Id  })
+        </td>
+    </tr>
+}
+
+</table>

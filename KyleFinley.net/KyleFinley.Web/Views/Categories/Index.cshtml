@@ -1,0 +1,52 @@
+﻿@model KyleFinley.Web.Models.ListViewData<_928.Entities.Models.Page<KyleFinley.Models.Category>>
+
+@{
+    ViewBag.Title = "Manage Categories";
+}
+
+<h2>Manage Caegories</h2>
+
+<p>
+    @Html.RouteLink("Management Dashboard", NamedRoutes.TopLevel, new { url = "manage" })<br />
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Title)
+        </th>
+
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().PublishedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Enabled)
+        </th>
+        <th></th>
+    </tr>
+
+    @foreach (var item in Model.Items) {
+        <tr>
+            <td>
+                @Html.DisplayFor(modelItem => item.Title)
+            </td>
+            <td>
+                @(item.PublishedDate.HasValue ? item.PublishedDate.Value.ToShortDateString() : "Not Published")
+            </td>
+            <td>
+                @Html.DisplayFor(modelItem => item.Description)
+            </td>
+            <td class="text-center">
+                @Html.DisplayFor(modelItem => item.Enabled)
+            </td>
+            <td>
+                @Html.ActionLink("Edit", "Edit", new { id = item.Id })
+            </td>
+        </tr>
+    }
+
+</table>
+

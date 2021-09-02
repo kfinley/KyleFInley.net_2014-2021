@@ -1,0 +1,156 @@
+﻿@using _928.Web.Mvc
+@using _928.UrlShortener
+
+@model ViewData<ShortUrlAnalytics>
+
+@{
+    var Analytics = Model.Page.Entity as ShortUrlAnalytics;
+    Model.Title = "Short URL Analytics";
+}
+
+
+<h2>Short URL Analytics</h2>
+
+<div class="row">
+    <div class="col-md-12">
+        <div style="display: inline-block;">
+            <p>@Analytics.ShortUrl</p>
+        </div>
+        <div style="display: inline-block; margin: 0 20px 0 20px;">
+            <p>@Analytics.LongUrl</p>
+            <p class="created-date">Created:<span>@Analytics.Created.ToShortDateString()</span></p>
+        </div>
+    </div>
+</div>
+
+<div class="row">
+    <div class="col-md-12">
+        <div>
+            <div class="short-url-clicks-timeline">
+                <p>Total Clicks</p>
+                <p id="clickCount" class="short-url-clicks-number-timeline">@Analytics.AllTime.Clicks.ShortUrlClicks</p>
+            </div>
+            <div class="text-right" style="margin-left: 150px;">Clicks for the past: <span id="twoHoursView" class="actionItem">two hours</span> | <span id="dayView" class="actionItem">day</span> | <span id="weekView" class="actionItem">week</span> | <span id="monthView" class="actionItem">month</span> | <span id="allTimeView" class="actionItem selected">all time</span></div>
+            <div id="clickTimeline" style="width: 100%;"></div>
+        </div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <span class="chart-title">Referrers</span>
+        <div class="top-border-line" style="display: none;"></div>
+        <div id="referrersChart" style="width: 100%;"></div>
+    </div>
+    <div class="col-md-6">
+        <span class="chart-title">Browsers</span>
+        <div class="top-border-line" style="display: none;"></div>
+        <div id="browsersChart" style="width: 100%;"></div>
+    </div>
+</div>
+<div class="row">
+    <div class="col-md-6">
+        <span class="chart-title">Countries</span>
+        <div class="top-border-line" style="display: none;"></div>
+        <div id="countriesChart" style="width: 100%;"></div>
+    </div>
+    <div class="col-md-6">
+        <span class="chart-title">Platforms</span>
+        <div class="top-border-line" style="display: none;"></div>
+        <div id="platformsChart" style="width: 100%;"></div>
+    </div>
+</div>
+<div class="clearfix"></div>
+@section Scripts {
+    <script type='text/javascript'>
+
+        var allTimeClickInfo = {
+            view: Analytics.views.AllTime,
+            totalClicks:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Clicks.ShortUrlClicks))),
+            data: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Clicks.Buckets))),
+            timeSize: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Clicks.BucketSize))),
+            endTime: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Clicks.EndTime))),
+            referrers: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Referrers))),
+            regions:@(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Countries))),
+            platforms: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Platforms))),
+            browsers:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.AllTime.Browsers)))
+            };
+        var monthClickInfo = {
+            view: Analytics.views.Month,
+            totalClicks:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Clicks.ShortUrlClicks))),
+            data: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Clicks.Buckets))),
+            timeSize: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Clicks.BucketSize))),
+            endTime: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Clicks.EndTime))),
+            referrers: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Referrers))),
+            regions:@(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Countries))),
+            platforms: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Platforms))),
+            browsers:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Month.Browsers)))
+            };
+        var weekClickInfo = {
+            view: Analytics.views.Week,
+            totalClicks:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Clicks.ShortUrlClicks))),
+            data: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Clicks.Buckets))),
+            timeSize: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Clicks.BucketSize))),
+            endTime: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Clicks.EndTime))),
+            referrers: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Referrers))),
+            regions:@(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Countries))),
+            platforms: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Platforms))),
+            browsers:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Week.Browsers)))
+            };
+        var dayClickInfo = {
+            view: Analytics.views.Day,
+            totalClicks:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Clicks.ShortUrlClicks))),
+            data: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Clicks.Buckets))),
+            timeSize: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Clicks.BucketSize))),
+            endTime: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Clicks.EndTime))),
+            referrers: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Referrers))),
+            regions:@(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Countries))),
+            platforms: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Platforms))),
+            browsers:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.Day.Browsers)))
+            };
+
+        var twoHoursClickInfo = {
+            view: Analytics.views.TwoHours,
+            totalClicks:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Clicks.ShortUrlClicks))),
+            data: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Clicks.Buckets))),
+            timeSize: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Clicks.BucketSize))),
+            endTime: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Clicks.EndTime))),
+            referrers: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Referrers))),
+            regions:@(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Countries))),
+            platforms: @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Platforms))),
+            browsers:  @(Html.Raw(new System.Web.Script.Serialization.JavaScriptSerializer().Serialize(Analytics.TwoHours.Browsers)))
+            };
+
+        var analytics = new Analytics( {
+            data: { allTimeClickInfo: allTimeClickInfo, monthClickInfo: monthClickInfo, weekClickInfo: weekClickInfo, dayClickInfo: dayClickInfo, twoHoursClickInfo: twoHoursClickInfo },
+            currentView: Analytics.views.AllTime,
+            chartDivs: { clickTimelineDiv: "clickTimeline", referrersDiv: "referrersChart", regionsDiv: "countriesChart", platformsDiv: "platformsChart", browsersDiv: "browsersChart"}
+        });
+
+        $(document).ready(function() {
+            analytics.pageInit();
+        });
+
+        $(window).resize({ analytics: analytics }, function (e) {
+            if(this.resizeTO) { clearTimeout(this.resizeTO); }
+            this.resizeTO = setTimeout(function() { $(this).trigger('resizeEnd'); }, 500);
+
+            e.data.analytics.setChartTitleLines();
+        });
+
+        $(window).on('resizeEnd', { analytics: analytics }, function(e) {
+            e.data.analytics.drawCharts();
+        });
+
+        google.load('visualization', "1", { packages: ["geochart"] });google.load("visualization", "1", { packages: ["corechart"]});
+        google.setOnLoadCallback(function() { analytics.drawReferrersChart( "referrersChart")});
+        google.setOnLoadCallback(function() { analytics.drawRegionsMap("countriesChart") });
+        google.setOnLoadCallback(function() { analytics.drawPlatformsChart("platformsChart") });
+        google.setOnLoadCallback(function() { analytics.drawBrowsersChart("browsersChart")});
+        google.setOnLoadCallback(function() { analytics.drawClickTimeline("clickTimeline") });
+
+    </script>
+}
+@section HeaderContent {
+    <script type='text/javascript' src='https://www.google.com/jsapi'></script>
+    @Scripts.Render("~/bundles/analytics")
+}

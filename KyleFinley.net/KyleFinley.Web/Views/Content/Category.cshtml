@@ -1,0 +1,15 @@
+﻿@model CategoryViewData
+
+@{
+    Model.Description = Model.Page.Description;
+    Layout = "~/Views/Shared/_Layout.cshtml";
+}
+
+<h1>@Model.Page.Title</h1>
+
+@Html.RenderContent(Model.Page.Content)
+
+@foreach (var article in Model.ArticleSummaries)
+{
+    @Html.Partial("ArticleSummary", article)
+}

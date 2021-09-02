@@ -1,0 +1,37 @@
+﻿
+Microsoft Visual Studio Solution File, Format Version 12.00
+# Visual Studio 2013
+VisualStudioVersion = 12.0.30501.0
+MinimumVisualStudioVersion = 10.0.40219.1
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{B4559CAC-7AD9-4558-A7F6-5E8C3B26801C}"
+	ProjectSection(SolutionItems) = preProject
+		Finley.vsmdi = Finley.vsmdi
+		LocalTestRun.testrunconfig = LocalTestRun.testrunconfig
+	EndProjectSection
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finley.Common", "Finley.Common\Finley.Common.csproj", "{B6D61862-A35C-486C-86F1-9329DF335E59}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Finley.Common.Tests", "Finley.Common.Tests\Finley.Common.Tests.csproj", "{E62E41A8-51E0-4413-AD84-5F365F079E96}"
+EndProject
+Global
+	GlobalSection(SolutionConfigurationPlatforms) = preSolution
+		Debug|Any CPU = Debug|Any CPU
+		Release|Any CPU = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(ProjectConfigurationPlatforms) = postSolution
+		{B6D61862-A35C-486C-86F1-9329DF335E59}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{B6D61862-A35C-486C-86F1-9329DF335E59}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{B6D61862-A35C-486C-86F1-9329DF335E59}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{B6D61862-A35C-486C-86F1-9329DF335E59}.Release|Any CPU.Build.0 = Release|Any CPU
+		{E62E41A8-51E0-4413-AD84-5F365F079E96}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{E62E41A8-51E0-4413-AD84-5F365F079E96}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{E62E41A8-51E0-4413-AD84-5F365F079E96}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{E62E41A8-51E0-4413-AD84-5F365F079E96}.Release|Any CPU.Build.0 = Release|Any CPU
+	EndGlobalSection
+	GlobalSection(SolutionProperties) = preSolution
+		HideSolutionNode = FALSE
+	EndGlobalSection
+	GlobalSection(TestCaseManagementSettings) = postSolution
+		CategoryFile = Finley.vsmdi
+	EndGlobalSection
+EndGlobal

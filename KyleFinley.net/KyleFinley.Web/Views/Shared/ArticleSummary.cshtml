@@ -1,0 +1,8 @@
+﻿@model ArticleSummary
+<div class="row row-centered" style="position: relative;">
+    <div class="col-md-8 section col-centered">
+        <h3 class="article-summary-title section-header">@Html.RouteLink(Model.Title, NamedRoutes.TopLevel, new { url = Model.Url.Path })</h3>
+        <div><i>Published: @Model.PublishedDate.ToShortDateString()</i></div>
+        <div>@Html.RenderContent(Model.ContentSnippet)</div>
+    </div>
+</div>

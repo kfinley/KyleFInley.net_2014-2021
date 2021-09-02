@@ -1,0 +1,20 @@
+﻿@model KyleFinley.Web.Models.ManageViewData
+@using _928.Web.Mvc
+@using KyleFinley.Models
+@using KyleFinley.Web.Models
+
+@{
+    ViewBag.Title = "Management Dashboard";
+}
+
+<h2>Management Dashboard</h2>
+
+<ul>
+    <li>@Html.RouteLink("Manage Home Page", NamedRoutes.Manage, new { Controller = "Home" })</li>
+    <li>@Html.RouteLink("Manage Articles", NamedRoutes.Manage, new { Controller = "Articles" })</li>
+    <li>@Html.RouteLink("Manage Categories", NamedRoutes.Manage, new { Controller = "Categories" })</li>
+    <li>@Html.RouteLink("Manage Site Urls", NamedRoutes.Manage, new { Controller = "Urls" })</li>
+    <li>@Html.RouteLink("Site Errors", NamedRoutes.Manage, new { Controller = "Exceptions" })</li>
+    <li>Manage Clients</li>
+</ul>
+

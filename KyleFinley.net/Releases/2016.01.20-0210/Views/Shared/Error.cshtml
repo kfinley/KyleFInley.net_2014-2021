@@ -1,0 +1,25 @@
+﻿@model System.Web.Mvc.HandleErrorInfo
+@{
+    ViewBag.Title = "Error";
+    Layout = "_ErrorLayout.cshtml";
+}
+<div class="row">
+    <div class="col-md-12 text-center">
+        <p>
+            <h2>Error!</h2>
+
+
+            @{
+#if DEBUG
+                }
+                <div>
+                    @Model.Exception.Message
+                </div>
+@{
+#endif
+
+    }
+        </p>
+    </div>
+</div>
+

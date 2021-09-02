@@ -1,0 +1,56 @@
+﻿@model KyleFinley.Web.Models.ListViewData<_928.Entities.Models.Page<KyleFinley.Models.Article>>
+
+@{
+    Model.Title = "Manage Articles";
+}
+
+<h2>Manage Articles</h2>
+
+<p>
+    @Html.RouteLink("Management Dashboard", NamedRoutes.TopLevel, new { url = "manage"} )<br />
+    @Html.ActionLink("Create New", "Create")
+</p>
+<table class="table">
+    <tr>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Title)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Entity.Author)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().PublishedDate)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Description)
+        </th>
+        <th>
+            @Html.DisplayNameFor(model => model.Items.First().Enabled)
+        </th>
+        <th></th>
+    </tr>
+
+@foreach (var article in Model.Items) {
+    <tr>
+        <td>
+            @Html.DisplayFor(modelItem => article.Title)
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => article.Entity.Author)
+        </td>
+        <td>
+            @(article.PublishedDate.HasValue ? article.PublishedDate.Value.ToShortDateString() : "Not Published")
+        </td>
+        <td>
+            @Html.DisplayFor(modelItem => article.Description)
+        </td>
+        <td class="text-center">
+            @Html.DisplayFor(modelItem => article.Enabled)
+        </td>
+        <td>
+            @Html.ActionLink("Edit", "Edit", new {  id = article.Id  })
+        </td>
+    </tr>
+}
+
+</table>

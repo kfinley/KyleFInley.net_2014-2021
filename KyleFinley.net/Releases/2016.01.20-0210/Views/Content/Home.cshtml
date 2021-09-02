@@ -1,0 +1,21 @@
+﻿@using _928.Core
+
+@model _928.Web.Mvc.ViewData<KyleFinley.Models.Home>
+
+
+@{
+    //Model.Title = Model.Title;
+    //Model.Description = Model.Description;
+}
+
+@section Header {
+    <div class="home-header" style="background-image: url('/content/images/@Model.HeaderImage')">
+    </div>
+}
+<div class="row section">
+    @Html.Raw(Model.Page.Content)
+</div>
+
+@foreach (var article in Model.Page.Entity.ArticleSummaries) {
+    @Html.Partial("ArticleSummary", article)
+}

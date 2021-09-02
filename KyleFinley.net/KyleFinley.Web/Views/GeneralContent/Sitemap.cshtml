@@ -1,0 +1,16 @@
+﻿@using _928.Core
+@model KyleFinley.Web.Models.SitemapViewData
+@{
+    Layout = null;
+}
+<?xml version="1.0" encoding="UTF-8" ?>
+<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9">
+    @foreach (var url in Model.Urls) {
+        <url>
+            <loc>@("http://{0}{1}{2}".FormatWith(Model.Site, url.Path.HasValue() ? "/" : string.Empty, url.Path))</loc>
+            @if (url.LastModified != null) {
+            <lastmod>@url.LastModified.ToString("yyyy-MM-dd")</lastmod>
+            }
+        </url>
+    }
+</urlset>

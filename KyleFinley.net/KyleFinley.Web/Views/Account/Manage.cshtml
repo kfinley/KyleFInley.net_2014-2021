@@ -1,0 +1,31 @@
+﻿@using _928.Core
+@using _928.Web
+@using KyleFinley.Web.Models;
+@using Microsoft.AspNet.Identity;
+
+@model KyleFinley.Web.Models.ManageAccountViewData
+
+@{
+    Model.Title = "Manage Account";
+}
+
+<h2>@Model.Title.</h2>
+
+<p class="text-success">@Model.StatusMessage</p>
+<div class="row">
+    <div class="col-md-12">
+        @if (Model.HasLocalPassword) {
+            @Html.Partial("_ChangePasswordPartial", new ManageUserViewModel())
+        } else {
+            @Html.Partial("_SetPasswordPartial", new ManageUserViewModel())
+        }
+
+        @*<section id="externalLogins">
+            @Html.Action("RemoveAccountList")
+            @Html.Partial("_ExternalLoginsListPartial", new ExternalLoginListViewModel { Action = "LinkLogin", ReturnUrl = Model.ReturnUrl })
+        </section>*@
+    </div>
+</div>
+@section Scripts {
+    @Scripts.Render("~/bundles/jqueryval")
+}

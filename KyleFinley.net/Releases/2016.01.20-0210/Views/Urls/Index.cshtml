@@ -1,0 +1,47 @@
+﻿@model KyleFinley.Web.Models.UrlsViewData
+
+@{
+    Model.Title = "Manage Urls";
+}
+<h2>Manage Urls</h2>
+
+@*<p>
+    @Html.ActionLink("Create New", "Create")
+</p>*@
+<div class="row">
+    <div class="col-md-12">
+        <table class="table">
+            <tr>
+                <th>
+                    @Html.DisplayNameFor(model => model.Urls.First().Path)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Urls.First().EntityType)
+                </th>
+                <th>
+                    @Html.DisplayNameFor(model => model.Urls.First().EntityId)
+                </th>
+                <th></th>
+            </tr>
+
+            @foreach (var url in Model.Urls) {
+                <tr>
+                    <td>
+                        /@Html.DisplayFor(modelItem => url.Path)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => url.EntityType)
+                    </td>
+                    <td>
+                        @Html.DisplayFor(modelItem => url.EntityId)
+                    </td>
+                    <td>
+                        @Html.ActionLink("Edit", "Edit", new { id = url.Id }) |
+                        @Html.ActionLink("Details", "Details", new { id = url.Id }) |
+                        @Html.ActionLink("Delete", "Delete", new { id = url.Id })
+                    </td>
+                </tr>
+            }
+        </table>
+    </div>
+</div>

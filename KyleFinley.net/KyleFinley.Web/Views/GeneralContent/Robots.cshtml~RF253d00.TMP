@@ -1,0 +1,15 @@
+﻿@using _928.Core
+@model KyleFinley.Web.Models.RobotsViewData
+@{
+    Layout = null;
+}
+User-agent: *
+@foreach (var url in Model.Disallow) {
+    @Html.Raw("disallow: " + url.Path);
+}
+
+@foreach (var url in Model.Allow) {
+    @Html.Raw("allow: " + url.Path);
+}
+
+
